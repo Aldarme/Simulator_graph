@@ -44,6 +44,10 @@ public class MatrixGraph extends Graph {
 			adjMatrix.set(numtation.getNum(vtx), tmpVtx);
 		}
 	}
+	
+	public int getVtxNum(Vertex vtx) {
+		return numtation.getNum(vtx);
+	}
 
 	/**
 	 * Check if edge occur in the adjacency matrix
@@ -151,23 +155,12 @@ public class MatrixGraph extends Graph {
 	}
 
 	/**
-	 * Return a copy of the current adjacency matrix
-	 * @return MatrixGraph
+	 * Return the current adjacency matrix
+	 * @return Vector<Vector<Edge>>
 	 */
-//	public MatrixGraph replica() {
-//		MatrixGraph newMtxG = new MatrixGraph(size());
-//		for(int i=0 ; i < size() ; i++) {
-//			newMtxG.vertexAdd(numtation.getElmtAt(i));
-//		}
-//		for(int i=0; i < size(); i++) {
-//			for(int j=0; j < size(); j++) {
-//				if(adjMatrix.get(i).get(j) != null) {
-//					newMtxG.edgeAdd(numtation.getElmtAt(i), numtation.getElmtAt(j), edgeValue(i, j));
-//				}
-//			}
-//		}
-//		return newMtxG;
-//	}
+	public Vector<Vector<Edge>> replica() {
+		return adjMatrix;
+	}
 	
 	/**
 	 * Display into console, the adjacency matrix
