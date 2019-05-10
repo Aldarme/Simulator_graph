@@ -1,6 +1,9 @@
 package Ant_Colony;
 
 import java.util.ArrayList;
+import java.util.Vector;
+
+import Graph.Edge;
 
 /**
  * 
@@ -10,85 +13,83 @@ import java.util.ArrayList;
 
 public class CommonKnowledge {
 
-	private int   nbrOfCities;
-	private float maxMarker;
-	private float minMarker;
-	private float evaporation;
-	private int   optimalLght;
-	private ArrayList<ArrayList<Float>> pheromones;
-	private ArrayList<ArrayList<Integer>> distances;
+	private static int   nbrOfCities;												//total number of vertex to visit
+	private static float evaporation;												//evaporation coefficient to update edge's strength phero.
+	private static int   optimalPathLght;										//length of the optimal tour realize by an ant
+	private static ArrayList<ArrayList<Float>> pheromones;	//adjacency pheromone matrix
+	private static Vector<Vector<Edge>> adjMtx_replica;			//replica of the current adjacency matrix
 	
-	public CommonKnowledge(float minMk, float maxMk, float evap, int ArraySize) {
-	
-		this.nbrOfCities 	= ArraySize;
-		this.maxMarker		= maxMk;
-		this.minMarker		=	minMk;
-		this.evaporation	=	evap;
-		this.pheromones 	= new ArrayList<ArrayList<Float>>(ArraySize);
-		this.distances 		= new ArrayList<ArrayList<Integer>>(ArraySize);
+	public static void nbrCtSet (int nbr) {
+		nbrOfCities = nbr;
 	}
 	
-	public void nbrCtSet (int nbr) {
-		this.nbrOfCities = nbr;
+	public static void evapSet (float evap) {
+		evaporation = evap;
 	}
 	
-	public void maxMkSet (float maxMk) {
-		this.maxMarker = maxMk;
+	public static void optLgthSet (int optl) {
+		optimalPathLght = optl;
 	}
 	
-	public void minMkSet (float minMk) {
-		this.minMarker = minMk;
+	public static int nbrCtGet () {
+		return nbrOfCities;
 	}
 	
-	public void evapSet (float evap) {
-		this.evaporation = evap;
+	public static float evapGet () {
+		return evaporation;
 	}
 	
-	public void optLgthSet (int optl) {
-		this.optimalLght = optl;
+	public static int optLgthGet () {
+		return optimalPathLght;
 	}
 	
-	public int nbrCtGet () {
-		return this.nbrOfCities;
-	}
-	
-	public float maxMkGet () {
-		return this.maxMarker;
-	}
-	
-	public float minMkGet () {
-		return this.minMarker;
-	}
-	
-	public float evapGet () {
-		return this.evaporation;
-	}
-	
-	public int optLgthGet () {
-		return this.optimalLght;
-	}
-	
-	public int CkSize() {
+	public static int CkSize() {
 		return pheromones.size();
 	}
 	
-	public void setPheromone(int vtxIn, int vtxOut, float value) {
+	public static float getPheromones(int i, int j){
+		return pheromones.get(i).get(j);
+	}
+	
+	/**
+	 * Allow to set pheromones strength of an edge.
+	 * @param vtxIn
+	 * @param vtxOut
+	 * @param value
+	 */
+	public static void setPheromone(int vtxIn, int vtxOut, float value) {
 		pheromones.get(vtxIn).set(vtxOut, value);
 	}
 	
-	public void evaporate() {
-		for(int i=0; i < nbrOfCities ; i++) {
-			for(int j=0; j < nbrOfCities ; j++) {
-				pheromones.get(i).set(j, pheromones.get(i).get(j) * (100-evaporation) /100 );
-				if (pheromones.get(i).get(j) < minMarker) {
-					pheromones.get(i).set(j, minMarker);
-				}
-				else if (pheromones.get(i).get(j) > maxMarker) {
-					pheromones.get(i).set(j, maxMarker);
-				}
-				pheromones.get(j).set(i, pheromones.get(i).get(j));
-			}
+	/**
+	 * Return a distance specify between two Vertex
+	 * @return
+	 */
+	public static Integer getAdjMtx_replica(int vtxIn, int vtxOut) {
+		return adjMtx_replica.get(vtxIn).get(vtxOut).getLgh();
+	}
+	
+	/**
+	 * Realize a replica of the current adjacency matrix
+	 * @param adjMtx_p
+	 */
+	public static void setAdjMtx_replica(Vector<Vector<Edge>> adjMtx_p) {
+		for(int i=0; i < adjMtx_replica.size(); i++) {
+			adjMtx_replica.set(i, adjMtx_p.get(i));
 		}
+	}
+	
+	public static int AdjMtxSize() {
+		return adjMtx_replica.size();
+	}
+	
+	/**
+	 * Allow to evaporate (update) pheromones on the edges visited by an Ant
+	 * to construct his tour.
+	 */
+	public void evaporate() {
+//	on dépose les phéromones sur les arcs qui ont étés visités par la fourmis pour la création de son toure.
+		
 	}
 	
 }
