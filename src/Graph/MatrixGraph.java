@@ -1,8 +1,7 @@
 package Graph;
 
+import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashSet;
-import java.util.LinkedList;
 import java.util.Vector;
 
 import Graph.Edge;
@@ -131,12 +130,12 @@ public class MatrixGraph extends Graph {
 	}
 
 	/**
-	 * Return an ArrayList of neighboor of the given vertex
+	 * Return an ArrayList of Edge, representing the given vertex neighbor
 	 * @param Vertex
 	 * @return LinkedList<Edge>
 	 */
-	public LinkedList<Edge> getNeighboor(Vertex vtx) {
-		LinkedList<Edge> tmpngb = new LinkedList<Edge>();
+	public ArrayList<Edge> getNeighboor(Vertex vtx) {
+		ArrayList<Edge> tmpngb = new ArrayList<Edge>();
 		
 		for(int j=0; j < size(); j++) {
 			if(edgeOccur(numtation.getNum(vtx), j)) {
