@@ -1,7 +1,6 @@
 package Ant_Colony;
 
 import java.util.ArrayList;
-import java.util.Vector;
 
 import Graph.*;
 
@@ -17,20 +16,43 @@ public class AntCo {
 	public AntCo(	Vertex Starting_Vertex,
 								Vertex Ending_Vertex)
 	{
+		antArray = new ArrayList<Ant>();
+//		Set optimal length at the maximum possible value
+		CommonKnowledge.optLgthSet(Integer.MAX_VALUE);
 		
 //	Set all ants at the same depart Vertex and provide them the same end Vertex
 		for(int i=0; i < CommonKnowledge.matGraph.size(); i++) {
-			antArray.set(i, new Ant(Starting_Vertex, Ending_Vertex));
+			antArray.add(new Ant(Starting_Vertex, Ending_Vertex, null));
 		}
+	}
+	
+	/**
+	 * Save the best traveled path
+	 */
+	public void Scoring() {
+		for (Ant ant : antArray) {
+			if(ant.getDist() < CommonKnowledge.optLgthGet()) {
+				CommonKnowledge.optLgthSet(ant.getDist());
+			}
+		}		
 	}
 	
 	/**
 	 * Initiate all ants thread
 	 */
 	public void initThreads() {
-		for (Ant ant : antArray) {
-			ant.start();
-		}
+//		for (Ant ant : antArray) {
+//			ant.start();
+//		}
+		antArray.get(0).start();
+//		antArray.get(1).start();
+//		antArray.get(2).start();
+//		antArray.get(3).start();
+//		antArray.get(4).start();
+//		antArray.get(5).start();
+//		antArray.get(6).start();
+//		antArray.get(7).start();
+		
 	}
 	
 	/**
@@ -45,8 +67,7 @@ public class AntCo {
 				System.out.println("thread interruption Occur");
 			}
 		}
-	}
-	
+	}	
 	
 	/**
 	 * Allow to getBack ants to its starting vertex
@@ -69,6 +90,16 @@ public class AntCo {
 	 */
 	public void localSearch() {
 		//TODO
+	}
+	
+	/**
+	 * Debug
+	 * Display all ants inside the antArray
+	 */
+	public void antsDisplay() {
+		for (Ant ant : antArray) {
+			System.out.println("ant: "+ant.getVertices()+"\n");
+		}
 	}
 
 }

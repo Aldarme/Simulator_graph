@@ -162,6 +162,7 @@ public class MatrixGraph extends Graph {
 	}
 	
 	/**
+	 * Debug
 	 * Display into console, the adjacency matrix
 	 */
 	public void adjMatDisplay() {

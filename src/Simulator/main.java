@@ -1,12 +1,16 @@
 package Simulator;
 
 import Graph.*;
+
+import java.util.ArrayList;
+
 import Ant_Colony.*;
 //import Shortest_Path.*;
 
 /**
  * 
  * @author promet
+ * @version 0.0.1
  *
  */
 public class main {
@@ -65,19 +69,29 @@ public class main {
 		CommonKnowledge.matGraph.edgeAdd(edgL);
 
 //		Display adjacency matrix to control it
-		CommonKnowledge.matGraph.adjMatDisplay();
+		CommonKnowledge.matGraph.adjMatDisplay();	//Debug function
+		
+//		Initialization of the adjacency pheromones matrix
+		CommonKnowledge.initPhero();
 
 //		Instantiation of the Ant Colony algorithm
 		AntCo antColony = new AntCo(vtx1, vtx8);
+//		antColony.antsDisplay();					//debug function
 		
-//		Initiate all ant thread
+////		Initiate all ant thread
 		antColony.initThreads();
 		
-//		Wait for the end of all threads
-		antColony.endThreads();
+////		Wait for the end of all threads
+//		antColony.endThreads();
 		
-//		All all ants to return at their starting point
-		antColony.getBack();
+////		Check all ants to find the best path
+//		antColony.Scoring();
+		
+////		Apply Local Search
+//		//TODO
+		
+////		All all ants to return at their starting point
+//		antColony.getBack(); 
 	}
 
 }
