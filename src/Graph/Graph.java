@@ -4,7 +4,10 @@ import java.util.Collection;
 
 /**
  * 
- * @author promet
+ * @author PierreROMET
+ * 
+ * 	Class Graph
+ *	Abstract interface for the creation of a graph
  *
  */
 
@@ -54,7 +57,7 @@ public abstract class Graph {
 	 * Return the value of a given edge between Vertex vtxIn & vtxOut
 	 * @param vtxIn
 	 * @param vtxOut
-	 * @return int value
+	 * @return integer
 	 */
 	public abstract int edgeValue(Vertex vtxIn, Vertex vtxOut);
 

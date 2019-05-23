@@ -6,13 +6,21 @@ import Graph.*;
 
 /**
  * 
- * @author promet
- *
+ * @author PierreROMET
+ * 
+ * 	Class AntCo
+ *	This class provide methods to use "Ant Colony" algorithm
  */
 public class AntCo {
 
 	private ArrayList<Ant> antArray;
 
+	/**
+	 * Constructor
+	 * Given a starting vertex & vertex to reach for all ants
+	 * @param Vertex
+	 * @param Vertex
+	 */
 	public AntCo(	Vertex Starting_Vertex,
 								Vertex Ending_Vertex)
 	{
@@ -36,8 +44,8 @@ public class AntCo {
 				CommonKnowledge.setOptiPath(ant.getTabuEdge());		//store best path
 			}
 		}
-		System.out.println("Optimal path: "+CommonKnowledge.optimalPathGet_string());
-		System.out.println("Optimal length: "+CommonKnowledge.optLgthGet());
+		System.out.println("Optimal path: "+CommonKnowledge.optimalPathGet_string());	//Debug
+		System.out.println("Optimal length: "+CommonKnowledge.optLgthGet());					//Debug
 	}
 	
 	/**
@@ -46,16 +54,7 @@ public class AntCo {
 	public void initThreads() {
 		for (Ant ant : antArray) {
 			ant.start();
-		}
-//		antArray.get(0).start();
-//		antArray.get(1).start();
-//		antArray.get(2).start();
-//		antArray.get(3).start();
-//		antArray.get(4).start();
-//		antArray.get(5).start();
-//		antArray.get(6).start();
-//		antArray.get(7).start();
-		
+		}		
 	}
 	
 	/**
@@ -74,7 +73,6 @@ public class AntCo {
 	
 	/**
 	 * Allow to getBack ants to its starting vertex
-	 * @return
 	 */
 	public void getBack() {
 		
@@ -88,7 +86,7 @@ public class AntCo {
 				}
 			}
 		}		
-		System.out.println("All pheromone strength has been updated.");		
+		System.out.println("All pheromone strength has been updated.");		//Debug
 	}
 	
 	/**

@@ -1,15 +1,15 @@
 package Ant_Colony;
 
 import java.util.ArrayList;
-
-import com.sun.xml.internal.bind.v2.runtime.unmarshaller.XsiNilLoader.Array;
-
 import Graph.Edge;
 import Graph.MatrixGraph;
 
 /**
  * 
- * @author promet
+ * @author PierreROMET
+ * 
+ * 	Class CommonKnowledge
+ * 	Common knowledge of all ants of the colony
  *
  */
 
@@ -22,6 +22,11 @@ public class CommonKnowledge {
 	private static ArrayList<ArrayList<Float>> pheromones;	//adjacency pheromone matrix
 	public 	static MatrixGraph matGraph;				//adjacency matrix
 	
+	/**
+	 * Initialize data structures of the static class
+	 *  optimalPath
+	 *  pheromones
+	 */
 	public static void initPhero() {
 		optimalPath	= new ArrayList<Edge>();
 		pheromones 	= new ArrayList<ArrayList<Float>>();
@@ -39,38 +44,74 @@ public class CommonKnowledge {
 	System.out.println(""+pheromones+"\n"+pheromones.size());
 	}
 	
+	/**
+	 * Set the optimal path of the graph
+	 * @param ArrayList<Edge>
+	 */
 	public static void setOptiPath(ArrayList<Edge> edges_p) {
 		optimalPath = edges_p;
 	}
 	
+	/**
+	 * Set the number of cities into the graph
+	 * @param Integer
+	 */
 	public static void nbrCtSet(int nbr) {
 		nbrOfCities = nbr;
 	}
 	
+	/**
+	 * Set the coefficient of evaporation
+	 * @param float
+	 */
 	public static void evapSet(float evap) {
 		evaporation = evap;
 	}
 	
+	/**
+	 * Set the optimal length of the graph
+	 * @param integer
+	 */
 	public static void optLgthSet(int optl) {
 		optimalPathLght = optl;
 	}
 	
+	/**
+	 * Get the number of cities into the graph
+	 * @return integer
+	 */
 	public static int nbrCtGet() {
 		return nbrOfCities;
 	}
 	
+	/**
+	 * Get the coefficient of evaporation
+	 * @return float
+	 */
 	public static float evapGet() {
 		return evaporation;
 	}
 	
+	/**
+	 * Get the optimal length of the graph
+	 * @return integer
+	 */
 	public static int optLgthGet() {
 		return optimalPathLght;
 	}
 	
+	/**
+	 * Get the optimal path of graph
+	 * @return ArrayList<Edge>
+	 */
 	public static ArrayList<Edge> optimalPathGet() {
 		return optimalPath;
 	}
 	
+	/**
+	 * Get names of vertices of the optimal path of graph
+	 * @return ArrayList<String>
+	 */
 	public static ArrayList<String> optimalPathGet_string() {
 		ArrayList<String> tmp = new ArrayList<String>();
 		for (Edge edge : optimalPath) {
@@ -79,27 +120,39 @@ public class CommonKnowledge {
 		return tmp;
 	}
 	
+	/**
+	 * Get the size of the pheromone matrix
+	 * @return integer
+	 */
 	public static int CkSize() {
 		return pheromones.size();
 	}
 	
+	/**
+	 * Get pheromone strength of an edge
+	 * @param integer
+	 * @param integer
+	 * @return float
+	 */
 	public static float getPheromones(int i, int j){
 		return pheromones.get(i).get(j);
 	}
 	
 	/**
-	 * Allow to set pheromone strength of an edge.
-	 * @param vtxIn
-	 * @param vtxOut
-	 * @param value
+	 * Set pheromone strength of an edge.
+	 * @param integer
+	 * @param integer
+	 * @param float
 	 */
 	public static void setPheromone(int vtxIn, int vtxOut, float value) {
 		pheromones.get(vtxIn).set(vtxOut, value);
 	}
 	
 	/**
-	 * Allow to evaporate (update) pheromones on the edges visited by an Ant
+	 * Evaporate (update) pheromones on the edges visited by an Ant
 	 * to construct his tour.
+	 * @param Edge
+	 * @param integer
 	 */
 	public static float Dorigo_evaporation(Edge edge_p, int tourLenght_p) {
 		float tmp = ((1.0f-evaporation) * getPheromones(matGraph.getVtxNum(edge_p.getVtxIn()),matGraph.getVtxNum(edge_p.getVtxOut())));
@@ -116,14 +169,4 @@ public class CommonKnowledge {
 			System.out.println(array+"\n");
 		}
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 }

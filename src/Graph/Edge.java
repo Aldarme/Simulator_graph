@@ -4,7 +4,11 @@ import java.util.Objects;
 
 /**
  * 
- * @author promet
+ * @author PierreROMET
+ *
+ *	Class Edge
+ *	This Class represent a Edge of a Graph
+ *	and provide all the methods to manipulate it.
  *
  */
 
@@ -14,6 +18,12 @@ public class Edge {
 	private Vertex vtxIn;
 	private Vertex vtxOut;
 	
+	/**
+	 * Constructor
+	 * @param int 		Length of the edge
+	 * @param Vertex	Starting vertex of the edge
+	 * @param Vertex	Ending vertex of the edge
+	 */
 	public Edge(int lgh, Vertex vtxIn, Vertex vtxOut) {
 		this.length = lgh;
 		this.vtxIn  = vtxIn;
@@ -21,6 +31,10 @@ public class Edge {
 		System.out.println("Edge: "+vtxIn.getName()+" to "+vtxOut.getName()+", with a cost of: "+length);
 	}
 	
+	/**
+	 * Constructor
+	 * @param Edge Instantiate edge with data of an other one
+	 */
 	public void Edge(Edge edg) {
 		this.length = edg.length;
 		this.vtxIn  = edg.vtxIn;
@@ -28,8 +42,8 @@ public class Edge {
 	}
 
 	/**
-	 * Set edge parameter with a given object
-	 * @param Object obj
+	 * Set edge with data of generic data structure
+	 * @param Object 
 	 */
 	public void setEdge(Object obj) {
 		Edge edg 		= (Edge) obj;
@@ -40,23 +54,23 @@ public class Edge {
 
 	/**
 	 * Set length of a given edge
-	 * @param int lgh
+	 * @param integer 
 	 */
 	public void setLength(int lgh) {
 		this.length = lgh;
 	}
 
 	/**
-	 * Set input Vertex of the edge
-	 * @param Vertex in
+	 * Set starting vertex of the edge
+	 * @param Vertex
 	 */
 	public void setvtxIn(Vertex in) {
 		this.vtxIn = in;
 	}
 
 	/**
-	 * Set output Vertex of the edge
-	 * @param Vertex out
+	 * Set ending vertex of the edge
+	 * @param Vertex
 	 */
 	public void setvtxOut(Vertex out) {
 		this.vtxOut = out;
@@ -64,14 +78,14 @@ public class Edge {
 
 	/**
 	 * Return the length of the edge
-	 * @return
+	 * @return integer
 	 */
 	public int getLgh() {
 		return this.length;
 	}
 
 	/**
-	 * Return input Vertex of the edge
+	 * Return input vertex of the edge
 	 * @return Vertex
 	 */
 	public Vertex getVtxIn() {
@@ -79,7 +93,7 @@ public class Edge {
 	}
 
 	/**
-	 * Return output Vertex of the edge
+	 * Return output vertex of the edge
 	 * @return Vertex
 	 */
 	public Vertex getVtxOut() {
@@ -87,7 +101,7 @@ public class Edge {
 	}
 
 	/**
-	 * Convert Vertices of edge into String Object
+	 * Convert vertices of edge into String Object
 	 * @return String
 	 */
 	public String toString() {
@@ -96,7 +110,7 @@ public class Edge {
 
 	/**
 	 * Overriding of equals function, by comparing vtxIn, vtxOut, length
-	 * @return boolean
+	 * @return boolean Success representation
 	 */
 	@Override
 	public boolean equals(Object obj) {
@@ -116,7 +130,7 @@ public class Edge {
 
 	/**
 	 * Overriding of hashCode function, by hashing by object reference
-	 * @return boolean
+	 * @return boolean Success representation
 	 */
 	@Override
 	public int hashCode() {

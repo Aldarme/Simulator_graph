@@ -3,24 +3,29 @@ package Graph;
 import java.util.Vector;
 
 import java.util.Hashtable;
-import java.util.Iterator;
-import java.util.Collection;
-import java.util.HashSet;
-
 import Graph.Vertex;
 
 /**
  * 
- * @author promet
+ * @author PierreROMET
  *
+ *	Class Numerotation
+ *	Provide a data structure  & method to identify
+ *  each vertex into the graph, as a number.
+ *  
  */
 
 public class Numerotation {
 
 	private int counter;
-	private Hashtable<Vertex, Integer> HSI;	//Store an ordered Vector list
-	private Vector<Vertex> VS;							//list of the all Vertex
+	private Hashtable<Vertex, Integer> HSI;	//Store an ordered vector list
+	private Vector<Vertex> VS;							//list of the all vertex
 
+	/**
+	 * Constructor
+	 * Instantiate the data structure of a given size
+	 * @param integer
+	 */
 	public Numerotation(int n) {
 		this.counter = -1;
 		this.HSI = new Hashtable<Vertex, Integer>(n);
@@ -29,16 +34,16 @@ public class Numerotation {
 	}
 
 	/**
-	 * Return the size of the list of Vertex
-	 * @return int size
+	 * Return the size of the list of vertex
+	 * @return integer
 	 */
 	public int taille() {
 		return VS.size();
 	}
 
 	/**
-	 * Add a given Vertex into Ordered Vector list & list of Vertex
-	 * @param Vertex vtx
+	 * Add a given vertex into Ordered vector list & list of vertex
+	 * @param Vertex
 	 * @return boolean
 	 */
 	public boolean elementAdd(Vertex vtx) {
@@ -52,9 +57,9 @@ public class Numerotation {
 	}
 
 	/**
-	 * Return the position of a given Vertex
-	 * @param Vertex vtx
-	 * @return int position
+	 * Return the position of a given vertex
+	 * @param Vertex
+	 * @return integer
 	 */
 	public int getNum(Vertex vtx) {
 //		System.out.println("HSI position: "+HSI.get(vtx));
@@ -62,8 +67,8 @@ public class Numerotation {
 	}
 
 	/**
-	 * Return a Vertex at the given adresse
-	 * @param int adresse
+	 * Return a vertex at the given address
+	 * @param integer
 	 * @return
 	 */
 	public Vertex getElmtAt(int i) {
@@ -71,7 +76,7 @@ public class Numerotation {
 	}
 
 	/**
-	 Return a collection of the all Vertices
+	 Return a collection of the all vertices
 	 * @return Vector<Vertex>
 	 */
 	public Vector<Vertex> vertices() {

@@ -8,7 +8,11 @@ import Graph.Edge;
 
 /**
  * 
- * @author promet
+ * @author PierreROMET
+ *
+ *	Class MatrixGraph
+ *	Data structure & method 
+ *	to deploy	& manipulate an undirected graph
  *
  */
 
@@ -17,6 +21,11 @@ public class MatrixGraph extends Graph {
 	private Vector<Vector<Edge>> adjMatrix;
 	private Numerotation numtation;	
 
+	/**
+	 * Constructor
+	 * Instantiate the data structure of a given size
+	 * @param integer
+	 */
 	public MatrixGraph(int n) {
 		this.adjMatrix = new Vector<Vector<Edge>>(n);
 		this.numtation = new Numerotation(n);
@@ -26,14 +35,14 @@ public class MatrixGraph extends Graph {
 
 	/**
 	 * Return the size of the adjacency matrix
-	 * @return int size
+	 * @return integer
 	 */
 	public int size() {
 		return this.adjMatrix.size();
 	}
 
 	/**
-	 * Insert Vertex into the adjacency matrix
+	 * Insert vertex into the adjacency matrix
 	 * @param Vertex
 	 */
 	public void vertexAdd(Vertex vtx) {
@@ -44,14 +53,19 @@ public class MatrixGraph extends Graph {
 		}
 	}
 	
+	/**
+	 * Get integer representation of a given vertex
+	 * @param vtx
+	 * @return
+	 */
 	public int getVtxNum(Vertex vtx) {
 		return numtation.getNum(vtx);
 	}
 
 	/**
-	 * Check if edge occur in the adjacency matrix
-	 * @param Vertex In
-	 * @param Vertex Out
+	 * Check if a given edge occur by its vertices, into the adjacency matrix
+	 * @param Vertex
+	 * @param Vertex
 	 * @return boolean
 	 */
 	public boolean edgeOccur(Vertex vtxIn, Vertex vtxOut) {
@@ -59,7 +73,7 @@ public class MatrixGraph extends Graph {
 	}
 
 	/**
-	 * Check if edge occur in the adjacency matrix
+	 * Check if a given edge occur by integer representation of vertices, into the adjacency matrix
 	 * @param int i
 	 * @param int j
 	 * @return boolean
@@ -69,10 +83,10 @@ public class MatrixGraph extends Graph {
 	}
 
 	/**
-	 * Add new edge, adding new Vertex in the adjacency matrix
-	 * @param Vertex In
-	 * @param Vertex Out
-	 * @param int value
+	 * Add new edge thank to vertices, into the adjacency matrix
+	 * @param Vertex
+	 * @param Vertex
+	 * @param int
 	 */
 	public void egeAdd(Vertex vtxIn, Vertex vtxOut, int val) {
 		vertexAdd(vtxIn);
@@ -82,55 +96,55 @@ public class MatrixGraph extends Graph {
 	
 	/**
 	 * Add new edge, connecting existing vertex in the adjacency matrix
-	 * @param Vertex In
-	 * @param Vertex Out
-	 * @param int value
+	 * @param Vertex
+	 * @param Vertex
+	 * @param integer
 	 */
 	public void edgeAdd(Edge edg) {
 		adjMatrix.get(numtation.getNum(edg.getVtxIn())).set(numtation.getNum(edg.getVtxOut()), edg);
 	}
 
 	/**
-	 * Return the value of an edge between vtxIn & vtxOut
-	 * @param Vertex In
-	 * @param Vertex Out
-	 * @return int value
+	 * Return the value of an edge between starting & ending vertices
+	 * @param Vertex
+	 * @param Vertex
+	 * @return integer
 	 */
 	public int edgeValue(Vertex vtxIn, Vertex vtxOut) {
 		return adjMatrix.get(numtation.getNum(vtxIn)).get(numtation.getNum(vtxOut)).getLgh();
 	}
 
 	/**
-	 * Return the value between i & j
-	 * @param int i
-	 * @param int j
-	 * @return int value
+	 * Return the value between starting & ending vertices
+	 * @param integer
+	 * @param integer
+	 * @return integer
 	 */
 	public int edgeValue(int i, int j) {
 		return adjMatrix.get(i).get(j).getLgh();
 	}
 
 	/**
-	 * Delete edge between vtxIn & vtxOut
-	 * @param Vertex In
-	 * @param Vertex Out
+	 * Delete edge between starting & ending vertices
+	 * @param Vertex
+	 * @param Vertex
 	 */
 	public void edgeDelete(Vertex vtxIn, Vertex vtxOut) {
 		adjMatrix.get(numtation.getNum(vtxIn)).remove(numtation.getNum(vtxOut));
 	}
 
 	/**
-	 * Modify the value of the edge between vtxIn & VtxOut
-	 * @param Vertex In
-	 * @param Vertex Out
-	 * @param int
+	 * Modify the value of the edge between starting & ending vertices
+	 * @param Vertex
+	 * @param Vertex
+	 * @param integer
 	 */
 	public void numModify(Vertex vtxIn, Vertex vtxOut, int val) {
 		adjMatrix.get(numtation.getNum(vtxIn)).get(numtation.getNum(vtxOut)).setLength(val);
 	}
 
 	/**
-	 * Return an ArrayList of Edge, representing the given vertex neighbor
+	 * Return an ArrayList of edge, representing the given vertex neighbor
 	 * @param Vertex
 	 * @return LinkedList<Edge>
 	 */
@@ -146,7 +160,7 @@ public class MatrixGraph extends Graph {
 	}
 
 	/**
-	 * Return a collection of the all Vertices
+	 * Return a collection of the all vertices
 	 * @return Collection<Vertex>
 	 */
 	public Collection<Vertex> vertices() {

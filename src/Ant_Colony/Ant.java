@@ -14,7 +14,11 @@ enum state{ HANDLE, SEARCHING_PATH, RETURNING, KILLED};
 
 /**
  * 
- * @author promet
+ * @author PierreROMET
+ * 
+ * 	Class Ant
+ *	This class represent an ant
+ *	& all information & methods to manipulate it
  *
  */
 public class Ant extends Thread{
@@ -34,6 +38,16 @@ public class Ant extends Thread{
 //	 - A reference to the common Ant knowledge
 //	 - A Reference to the Graph adjacency matrix 	
 	
+	/**
+	 * Constructor
+	 * Instantiate Ant object with three vertices:
+	 * Vertex starting & to reach, & ending point set a null for the instantiation
+	 * & initialize data structures
+	 * @param Vertex
+	 * @param Vertex
+	 * @param Vertex
+	 * @param Integer
+	 */
 	public Ant(Vertex vtxStart_p, Vertex toReach_p, Vertex vtxEnd_p, int ID_p) {
 		this.ID 				= ID_p;
 		this.vtxStart 	= vtxStart_p;
@@ -44,12 +58,11 @@ public class Ant extends Thread{
 		this.ToVisit		= new Vector<String>();
 		this.Edge_tabuList	= new ArrayList<Edge>();
 		this.testedVtxList	= new ArrayList<Vertex>();
-//		this.tabuList.setSize(CommonKnowledge.matGraph.size()); //to verify
 		ToVisit_init();
 	}
 	
 	/**
-	 * 	Function execute when thread is started
+	 * 	Executed function when the thread is started
 	 */
 	public void run() {
 		this.antState = antState.SEARCHING_PATH;	//update state to corresponding to searching action
@@ -194,14 +207,14 @@ public class Ant extends Thread{
 	
 	/**
 	 * Get the total distance travel by ant
-	 * @return int
+	 * @return integer
 	 */
 	public int getDist() {
 		return this.distTravelled;
 	}
 	
 	/**
-	 * Get ant vertices
+	 * Get starting, ending & toReach vertices of the ant
 	 */
 	public String  getVertices()
 	{

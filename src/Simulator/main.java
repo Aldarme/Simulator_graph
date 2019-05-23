@@ -1,16 +1,16 @@
 package Simulator;
 
 import Graph.*;
-
-import java.util.ArrayList;
-
 import Ant_Colony.*;
 //import Shortest_Path.*;
 
 /**
  * 
- * @author promet
+ * @author PierreROMET
  * @version 0.1.0
+ * 
+ * 	Class main 
+ * 	This class represent the algorithm engine of "Ant Colony"
  *
  */
 public class main {
@@ -78,19 +78,19 @@ public class main {
 		AntCo antColony = new AntCo(vtx1, vtx8);
 //		antColony.antsDisplay();					//debug function
 		
-////		Initiate all ant thread
+//		Initiate all ant thread
 		antColony.initThreads();
 		
-////		Wait for the end of all threads
+//		Wait for the end of all threads
 		antColony.endThreads();
 		
-////		Check all ants to find the best path
+//		Check all ants to find the best path
 		antColony.Scoring();
 		
-////		Apply Local Search
-//		//TODO
+//		Apply Local Search
+//		TODO
 		
-////		All all ants to return at their starting point
+//		All all ants to return at their starting point
 		antColony.getBack();
 		
 //		Display adjacency pheromones matrix
