@@ -19,22 +19,24 @@ enum state{ HANDLE, SEARCHING_PATH, RETURNING, KILLED};
  */
 public class Ant extends Thread{
 
-	private Vertex 			vtxStart;		//Ant starting city
-	private Vertex 			vtxEnd;			//Next vertex to reach
-	private Vertex			toReach;		//Final Vertex to reach to stop executing process
-	private Vector<String> 	tabuList;		//Collection containing all the Vertex visited by an Ant
+	private int 				ID;
+	private Vertex 			vtxStart;						//Ant starting city
+	private Vertex 			vtxEnd;							//Next vertex to reach
+	private Vertex			toReach;						//Final Vertex to reach to stop executing process
+	private Vector<String> 	tabuList;				//Collection containing all the Vertex visited by an Ant
 	private ArrayList<Edge> Edge_tabuList;	//Collection containing all the Edge visited by an Ant
-	private Vector<String> 	ToVisit;		//Collection containing all the remaining Vertex of the graph to visit
-	private state 			antState;		//Current state of the ant
-	private int 			distTravelled;	//Total distance travel from start to current position
+	private Vector<String> 	ToVisit;				//Collection containing all the remaining Vertex of the graph to visit
+	private state 			antState;						//Current state of the ant
+	private int 				distTravelled;			//Total distance travel from start to current position
 	private ArrayList<Vertex> testedVtxList;//Allow to store testedVtx to do not test two times the same vertex
 	
 //	It's important to remember that a ant must have a reference on Two points:
 //	 - A reference to the common Ant knowledge
 //	 - A Reference to the Graph adjacency matrix 	
 	
-	public Ant(Vertex vtxStart_p, Vertex toReach_p, Vertex vtxEnd_p) {
-		this.vtxStart 		= vtxStart_p;
+	public Ant(Vertex vtxStart_p, Vertex toReach_p, Vertex vtxEnd_p, int ID_p) {
+		this.ID 				= ID_p;
+		this.vtxStart 	= vtxStart_p;
 		this.toReach		= toReach_p;
 		this.vtxEnd 		= vtxEnd_p;
 		this.antState		= state.HANDLE;
@@ -42,8 +44,8 @@ public class Ant extends Thread{
 		this.ToVisit		= new Vector<String>();
 		this.Edge_tabuList	= new ArrayList<Edge>();
 		this.testedVtxList	= new ArrayList<Vertex>();
-		this.tabuList.setSize(CommonKnowledge.matGraph.size());
-		this.ToVisit.setSize(CommonKnowledge.matGraph.size());
+//		this.tabuList.setSize(CommonKnowledge.matGraph.size()); //to verify
+		ToVisit_init();
 	}
 	
 	/**
@@ -51,7 +53,7 @@ public class Ant extends Thread{
 	 */
 	public void run() {
 		this.antState = antState.SEARCHING_PATH;	//update state to corresponding to searching action
-		while(!toReach()) {							//the ant is searching a path
+		while(toReach()) {												//the ant is searching a path
 		}
 	}	
 
@@ -66,14 +68,19 @@ public class Ant extends Thread{
 		this.vtxEnd = DorigoProb(vtxStart).getVtxOut();
 		
 //	test if the vtxEnd can be reach
-		if(ToVisit.contains(this.vtxEnd.getName())) { //TODEBUG
+		if(ToVisit.contains(this.vtxEnd.getName())) {
 			tabuList.add(vtxStart.getName());
 			ToVisit.remove(tabuList.lastElement());
 			this.distTravelled += CommonKnowledge.matGraph.edgeValue(this.vtxStart, this.vtxEnd);
 			//Kill the thread if the ant find the vertex to reach
 			if(this.vtxEnd.getName() == this.toReach.getName()) {
 				this.antState = antState.RETURNING;
+				tabuList.add(vtxEnd.getName());
+				ToVisit.remove(tabuList.lastElement());
 				Thread.currentThread().interrupt();
+				this.vtxStart = this.vtxEnd;
+				System.out.println("Ant: "+this.ID+", Path: "+this.tabuList+", length: "+this.distTravelled+"\n");
+				return false;
 			}
 			this.vtxStart = this.vtxEnd;							//update start&end vertex to find new destination from the vertex+1
 			this.vtxEnd = null;			
@@ -157,9 +164,16 @@ public class Ant extends Thread{
 				}
 			}
 		}
-		
-
 		return rtEdge;
+	}
+	
+	/**
+	 * Initialize ToVisit tab, with the all node of the graph
+	 */
+	public void ToVisit_init() {
+		for (Vertex vtx : CommonKnowledge.matGraph.vertices()) {
+			this.ToVisit.add(vtx.getName());
+		}
 	}
 
 	/**

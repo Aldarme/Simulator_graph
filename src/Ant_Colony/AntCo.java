@@ -22,7 +22,7 @@ public class AntCo {
 		
 //	Set all ants at the same depart Vertex and provide them the same end Vertex
 		for(int i=0; i < CommonKnowledge.matGraph.size(); i++) {
-			antArray.add(new Ant(Starting_Vertex, Ending_Vertex, null));
+			antArray.add(new Ant(Starting_Vertex, Ending_Vertex, null, i));
 		}
 	}
 	
@@ -32,19 +32,22 @@ public class AntCo {
 	public void Scoring() {
 		for (Ant ant : antArray) {
 			if(ant.getDist() < CommonKnowledge.optLgthGet()) {
-				CommonKnowledge.optLgthSet(ant.getDist());
+				CommonKnowledge.optLgthSet(ant.getDist());				//store best path length
+				CommonKnowledge.setOptiPath(ant.getTabuEdge());		//store best path
 			}
-		}		
+		}
+		System.out.println("Optimal path: "+CommonKnowledge.optimalPathGet_string());
+		System.out.println("Optimal length: "+CommonKnowledge.optLgthGet());
 	}
 	
 	/**
 	 * Initiate all ants thread
 	 */
 	public void initThreads() {
-//		for (Ant ant : antArray) {
-//			ant.start();
-//		}
-		antArray.get(0).start();
+		for (Ant ant : antArray) {
+			ant.start();
+		}
+//		antArray.get(0).start();
 //		antArray.get(1).start();
 //		antArray.get(2).start();
 //		antArray.get(3).start();
@@ -78,7 +81,10 @@ public class AntCo {
 		for (Ant ant : antArray) {
 			if(ant.getAntState() == state.RETURNING) {
 				for (Edge edges : ant.getTabuEdge()) {
-					edges.setLength((int)CommonKnowledge.Dorigo_evaporation(edges, ant.getDist()));
+					CommonKnowledge.setPheromone( CommonKnowledge.matGraph.getVtxNum(edges.getVtxIn()),
+																				CommonKnowledge.matGraph.getVtxNum(edges.getVtxOut()), 
+																				CommonKnowledge.Dorigo_evaporation(edges, ant.getDist())
+																			);
 				}
 			}
 		}		

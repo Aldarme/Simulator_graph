@@ -10,7 +10,7 @@ import Ant_Colony.*;
 /**
  * 
  * @author promet
- * @version 0.0.1
+ * @version 0.1.0
  *
  */
 public class main {
@@ -82,16 +82,19 @@ public class main {
 		antColony.initThreads();
 		
 ////		Wait for the end of all threads
-//		antColony.endThreads();
+		antColony.endThreads();
 		
 ////		Check all ants to find the best path
-//		antColony.Scoring();
+		antColony.Scoring();
 		
 ////		Apply Local Search
 //		//TODO
 		
 ////		All all ants to return at their starting point
-//		antColony.getBack(); 
+		antColony.getBack();
+		
+//		Display adjacency pheromones matrix
+		CommonKnowledge.pheroMatDisplay();
 	}
 
 }

@@ -72,9 +72,9 @@ public class Numerotation {
 
 	/**
 	 Return a collection of the all Vertices
-	 * @return Collection<Vertex>
+	 * @return Vector<Vertex>
 	 */
-	public Collection<Vertex> vertices() {
+	public Vector<Vertex> vertices() {
 		return VS;
 	}
 
