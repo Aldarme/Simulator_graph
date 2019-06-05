@@ -2,6 +2,7 @@ package Simulator;
 
 import Graph.*;
 import Ant_Colony.*;
+import Decision_Making.Markov_Decision_Process;
 //import Shortest_Path.*;
 
 /**
@@ -16,6 +17,17 @@ import Ant_Colony.*;
 public class main {
 
 	public static void main(String[] args) {
+		
+		/**
+		 * TODO
+		 * Pour une implementation dynamique
+		 * - Utiliser un tab de Vertex au lieu de mono objet
+		 * - Utiliser un tab de Edge au lieu de mono objet
+		 * - Utiliser le tabVertex pour definir les arcs
+		 * 
+		 * MatGraph:
+		 * 	boucle pour add "vertex" & "edge"
+		 */
 		
 //		Creation of Vertices
 		Vertex vtx1 = new Vertex("1");
@@ -69,32 +81,41 @@ public class main {
 		CommonKnowledge.matGraph.edgeAdd(edgL);
 
 //		Display adjacency matrix to control it
-		CommonKnowledge.matGraph.adjMatDisplay();	//Debug function
+//		CommonKnowledge.matGraph.adjMatDisplay();	//Debug function
 		
-//		Initialization of the adjacency pheromones matrix
+//		Initialization of the adjacency pheromone matrix
 		CommonKnowledge.initPhero();
-
-//		Instantiation of the Ant Colony algorithm
-		AntCo antColony = new AntCo(vtx1, vtx8);
-//		antColony.antsDisplay();					//debug function
 		
-//		Initiate all ant thread
-		antColony.initThreads();
-		
-//		Wait for the end of all threads
-		antColony.endThreads();
-		
-//		Check all ants to find the best path
-		antColony.Scoring();
-		
-//		Apply Local Search
-//		TODO
-		
-//		All all ants to return at their starting point
-		antColony.getBack();
-		
-//		Display adjacency pheromones matrix
-		CommonKnowledge.pheroMatDisplay();
+//		for (int i = 0; i < 5; i++) {
+		do {
+			
+//			Display the Ant Colony iteration number
+			CommonKnowledge.iterationCnt();
+			System.out.println(CommonKnowledge.algoIterationGet()+"st tour \n");
+			
+	//		Instantiation of the Ant Colony algorithm
+			AntCo antColony = new AntCo(vtx1, vtx8);
+	//		antColony.antsDisplay();					//debug function
+			
+	//		Initiate all ant thread
+			antColony.initThreads();
+			
+	//		Wait for the end of all threads
+			antColony.endThreads();
+			
+	//		Check all ants to find the best path
+			antColony.Scoring();
+			
+	//		Apply Local Search
+	//		TODO
+			
+	//		All all ants to return at their starting point
+			antColony.getBack();
+			
+	//		Display adjacency pheromones matrix
+			CommonKnowledge.pheroMatDisplay();
+			
+		}while (Markov_Decision_Process.MDP());
 	}
 
 }
