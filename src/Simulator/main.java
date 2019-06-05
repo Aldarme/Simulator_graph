@@ -15,6 +15,8 @@ import Decision_Making.Markov_Decision_Process;
  *
  */
 public class main {
+	
+	private static int init_AlgoIteration = 10;
 
 	public static void main(String[] args) {
 		
@@ -83,8 +85,9 @@ public class main {
 //		Display adjacency matrix to control it
 //		CommonKnowledge.matGraph.adjMatDisplay();	//Debug function
 		
-//		Initialization of the adjacency pheromone matrix
+//		Initialization of Static classes
 		CommonKnowledge.initPhero();
+		Markov_Decision_Process.rewardSet(10);
 		
 //		for (int i = 0; i < 5; i++) {
 		do {

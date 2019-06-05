@@ -17,7 +17,8 @@ import Ant_Colony.CommonKnowledge;
 public class Markov_Decision_Process {
 	
 	private static int storedBestPath = Integer.MAX_VALUE;
-	private static int reward 				= 1;
+	//the init. value of reward parameter, conditions the deep search of local minimum algo.  
+	private static int reward;
 	
 	public static boolean MDP() {
 		
@@ -38,5 +39,9 @@ public class Markov_Decision_Process {
 		}
 		
 		return true;
+	}
+	
+	public static void rewardSet(int reward_p) {
+		reward = reward_p;
 	}
 }
