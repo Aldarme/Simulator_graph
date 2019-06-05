@@ -129,28 +129,28 @@ public class Ant extends Thread{
 		Edge rtEdge 												= null;
 		
 		
-//	Calculate PhLg ratio for all neighbor of current Vecter.
+//	Calculate PhLg ratio for all neighbor of current Vertex.
 		for (Edge myEdge : neighbor) {			
-			float tmp = (float)CommonKnowledge.getPheromones(CommonKnowledge.matGraph.getVtxNum(myEdge.getVtxIn()),
+			float tmp = CommonKnowledge.getPheromones(CommonKnowledge.matGraph.getVtxNum(myEdge.getVtxIn()),
 																											CommonKnowledge.matGraph.getVtxNum(myEdge.getVtxOut())
-																											) / (1/(float)myEdge.getLgh());
-			myHashTable.put(tmp, myEdge);
+																											) / (1.0f/(float)myEdge.getLgh());
 			PhLg_tab.add(tmp);
 			neighborSum += tmp;
 		}
 		
-//	Calculate Dorigo Probability for all neighbor of current Vecter.
-		for (Float PhLgRatio : PhLg_tab) {
+//	Calculate Dorigo Probability for all neighbor of current Vertex.
+		for (int i = 0; i < neighbor.size(); i++) {
 			if (neighborSum == 0) {
 				DorigoProb.add(0.0f);
 			}
 			else {
-//			transform PhLg as probability
-				DorigoProb.add(PhLgRatio / neighborSum);
-			}
+				//transform PhLg as probability & store
+				myHashTable.put(PhLg_tab.get(i)/ neighborSum, neighbor.get(i));
+				DorigoProb.add(PhLg_tab.get(i)/ neighborSum);											
+			}	
 		}
 		
-		if (neighborSum == 0) {
+		if (neighborSum == 0) { //All path have the same probability to be chosen
 //		We randomly chose an edge, given that all edge have a null pheromone length
 			Random rand = new Random(); 
 			int aleaNbr = (rand.nextInt((int)neighborSum - 0 + neighbor.size()) + 0);
@@ -158,15 +158,13 @@ public class Ant extends Thread{
 			Edge_tabuList.add(rtEdge);
 		}
 		else {
-//		Add Max. possible value at the end of the array to have a stop condition
-			DorigoProb.add(neighborSum);
 			
 //		Sort DorigoProb Arraylist
 			Collections.sort(DorigoProb);
 			
 //		Generate a Random number
 			Random rand = new Random(); 
-			float aleaNbr = (float) (rand.nextInt((int)neighborSum - 0 + 100) + 0) / 100.0f;
+			float aleaNbr = (float) (rand.nextInt((int)neighborSum - 0 + Math.round(DorigoProb.get(DorigoProb.size()-1)) ) + 0) / 100.0f;
 			
 //		Use generated random number to define the next Vertex to reach
 			for (Float PhLgRatio : DorigoProb) {
