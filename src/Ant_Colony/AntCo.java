@@ -25,8 +25,6 @@ public class AntCo {
 								Vertex Ending_Vertex)
 	{
 		antArray = new ArrayList<Ant>();
-//		Set optimal length at the maximum possible value
-		CommonKnowledge.optLgthSet(Integer.MAX_VALUE);
 		
 //	Set all ants at the same depart Vertex and provide them the same end Vertex
 		for(int i=0; i < CommonKnowledge.matGraph.size(); i++) {
@@ -105,5 +103,5 @@ public class AntCo {
 			System.out.println("ant: "+ant.getVertices()+"\n");
 		}
 	}
-
+	
 }

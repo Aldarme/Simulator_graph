@@ -20,7 +20,8 @@ public class CommonKnowledge {
 	private static int   optimalPathLght;				//length of the optimal tour realize by an ant
 	private static ArrayList<Edge> optimalPath;	//Edges that form the best path
 	private static ArrayList<ArrayList<Float>> pheromones;	//adjacency pheromone matrix
-	public 	static MatrixGraph matGraph;				//adjacency matrix
+	public 	static MatrixGraph 	matGraph;				//adjacency matrix
+	private static int					algoIteration;	//Ant Colony iteration number
 	
 	/**
 	 * Initialize data structures of the static class
@@ -28,8 +29,10 @@ public class CommonKnowledge {
 	 *  pheromones
 	 */
 	public static void initPhero() {
+		
 		optimalPath	= new ArrayList<Edge>();
 		pheromones 	= new ArrayList<ArrayList<Float>>();
+		optimalPathLght = Integer.MAX_VALUE; 										//Set optimal length at the maximum possible value
 		
 		for (int i = 0; i < matGraph.size(); i++) {
 			pheromones.add( new ArrayList<Float>(matGraph.size()) );
@@ -155,9 +158,7 @@ public class CommonKnowledge {
 	 * @param integer
 	 */
 	public static float Dorigo_evaporation(Edge edge_p, int tourLenght_p) {
-		float tmp = ((1.0f-evaporation) * getPheromones(matGraph.getVtxNum(edge_p.getVtxIn()),matGraph.getVtxNum(edge_p.getVtxOut())));
-		float tmp2 = tmp + (1.0f / tourLenght_p);
-		return ( tmp2);
+		return ( (1.0f / tourLenght_p)+ ((1.0f-evaporation) * getPheromones(matGraph.getVtxNum(edge_p.getVtxIn()),matGraph.getVtxNum(edge_p.getVtxOut()))) );
 	}
 	
 	/**
@@ -168,5 +169,20 @@ public class CommonKnowledge {
 		for (ArrayList<Float> array : pheromones) {
 			System.out.println(array+"\n");
 		}
+	}
+	
+	/**
+	 * Increment Ant Colony iteration number
+	 */
+	public static void iterationCnt() {
+		algoIteration++;
+	}
+	
+	/**
+	 * Display Ant Colony iteration number
+	 * @return int
+	 */
+	public static int algoIterationGet() {
+		return algoIteration;
 	}
 }
