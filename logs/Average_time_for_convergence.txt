@@ -1,0 +1,12 @@
+******************************************
+
+Average time for 100000 Iteration.
+The time for algorithm convergence is: 0.0017779832526100031 seconds
+
+******************************************
+******************************************
+
+Average time for 100000 Iteration.
+The time for algorithm convergence is: 0.001215502192890004 seconds
+
+******************************************
