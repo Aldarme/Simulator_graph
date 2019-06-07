@@ -1,6 +1,11 @@
 package Simulator;
 
 import Graph.*;
+
+import java.io.File;
+import java.io.FileWriter;
+import java.util.ArrayList;
+
 import Ant_Colony.*;
 import Decision_Making.Markov_Decision_Process;
 //import Shortest_Path.*;
@@ -16,109 +21,82 @@ import Decision_Making.Markov_Decision_Process;
  */
 public class main {
 	
-	private static int init_AlgoIteration = 10;
-
+	private static int localMinDeepSearch = 10;
+	private static AntEngine antEngine = new AntEngine(localMinDeepSearch);
+	
+	//Variable to evaluate the time convergence of the algorithm
+	private static double timeAdder			= 0;
+	private static ArrayList<Integer> nbrIteration = new ArrayList<Integer>() {{
+		add(1);
+		add(1000);
+		add(5000);
+		add(10000);
+		add(30000);
+		add(50000);
+		add(75000);
+		add(95000);
+		add(100000);
+	}};
+	
+	/**
+	 * Main function
+	 */
 	public static void main(String[] args) {
 		
-		/**
-		 * TODO
-		 * Pour une implementation dynamique
-		 * - Utiliser un tab de Vertex au lieu de mono objet
-		 * - Utiliser un tab de Edge au lieu de mono objet
-		 * - Utiliser le tabVertex pour definir les arcs
-		 * 
-		 * MatGraph:
-		 * 	boucle pour add "vertex" & "edge"
-		 */
+		iterate(8);		
+	}
+	
+	/**
+	 * Calculate the average time convergence of the algorithm,
+	 * the number of iteration is set by the parameter 
+	 * @param int
+	 */
+	public static void iterate(int iteration_p) {
 		
-//		Creation of Vertices
-		Vertex vtx1 = new Vertex("1");
-		Vertex vtx2 = new Vertex("2");
-		Vertex vtx3 = new Vertex("3");
-		Vertex vtx4 = new Vertex("4");
-		Vertex vtx5 = new Vertex("5");
-		Vertex vtx6 = new Vertex("6");
-		Vertex vtx7 = new Vertex("7");
-		Vertex vtx8 = new Vertex("8");
-
-//		Creation of Edges
-		Edge edgA = new Edge(8, vtx1, vtx2);
-		Edge edgB = new Edge(4, vtx1, vtx3);
-		Edge edgC = new Edge(1, vtx3, vtx2);
-		Edge edgD = new Edge(5, vtx2, vtx4);
-		Edge edgE = new Edge(2, vtx3, vtx5);
-		Edge edgF = new Edge(4, vtx5, vtx4);
-		Edge edgG = new Edge(3, vtx4, vtx7);
-		Edge edgH = new Edge(9, vtx8, vtx4);
-		Edge edgI = new Edge(7, vtx4, vtx6);
-		Edge edgJ = new Edge(3, vtx5, vtx6);
-		Edge edgK = new Edge(1, vtx7, vtx8);
-		Edge edgL = new Edge(2, vtx6, vtx8);
-
-//		Instantiation of the adjacency matrix
-		CommonKnowledge.matGraph = new MatrixGraph(8);
+		timeAdder = 0;
+		for (int i = 0; i <= nbrIteration.get(iteration_p); i++) {
+			System.out.println("iteration nbr: "+i+"\n");
+			antEngine.AE_start();
+			CommonKnowledge.pheroInit();
+			timeAdder += CommonKnowledge.convTimeGet();
+		}		
+		System.out.println("Average time for algorithm convergence is: "+ timeAdder/(double)nbrIteration.get(iteration_p));
 		
-//		Insertion of Vertex into adjacency matrix
-		CommonKnowledge.matGraph.vertexAdd(vtx1);
-		CommonKnowledge.matGraph.vertexAdd(vtx2);
-		CommonKnowledge.matGraph.vertexAdd(vtx3);
-		CommonKnowledge.matGraph.vertexAdd(vtx4);
-		CommonKnowledge.matGraph.vertexAdd(vtx5);
-		CommonKnowledge.matGraph.vertexAdd(vtx6);
-		CommonKnowledge.matGraph.vertexAdd(vtx7);
-		CommonKnowledge.matGraph.vertexAdd(vtx8);
-
-//		Insertion of the edges into adjacency matrix
-		CommonKnowledge.matGraph.edgeAdd(edgA);
-		CommonKnowledge.matGraph.edgeAdd(edgB);
-		CommonKnowledge.matGraph.edgeAdd(edgC);
-		CommonKnowledge.matGraph.edgeAdd(edgD);
-		CommonKnowledge.matGraph.edgeAdd(edgE);
-		CommonKnowledge.matGraph.edgeAdd(edgF);
-		CommonKnowledge.matGraph.edgeAdd(edgG);
-		CommonKnowledge.matGraph.edgeAdd(edgH);
-		CommonKnowledge.matGraph.edgeAdd(edgI);
-		CommonKnowledge.matGraph.edgeAdd(edgJ);
-		CommonKnowledge.matGraph.edgeAdd(edgK);
-		CommonKnowledge.matGraph.edgeAdd(edgL);
-
-//		Display adjacency matrix to control it
-//		CommonKnowledge.matGraph.adjMatDisplay();	//Debug function
-		
-//		Initialization of Static classes
-		CommonKnowledge.initPhero();
-		Markov_Decision_Process.rewardSet(10);
-		
-//		for (int i = 0; i < 5; i++) {
-		do {
+		try{
 			
-//			Display the Ant Colony iteration number
-			CommonKnowledge.iterationCnt();
-			System.out.println(CommonKnowledge.algoIterationGet()+"st tour \n");
+			File myFile = new File("D:\\Workspace\\Simulator_graph\\logs\\Average_time_for_convergence.txt");
+			if(myFile.isFile())
+			{ 
+				FileWriter ffw = new FileWriter(myFile, true);
+				ffw.write("******************************************");
+				ffw.write("\r\n");
+				ffw.write("\r\n");
+				ffw.write("Average time for "+ nbrIteration.get(iteration_p) + " Iteration.");
+				ffw.write("\r\n");
+				ffw.write("The time for algorithm convergence is: "+ timeAdder/(double)nbrIteration.get(iteration_p) + " seconds");
+				ffw.write("\r\n");
+				ffw.write("\r\n");
+				ffw.write("******************************************");
+				ffw.write("\r\n");
+				ffw.close();
+			}
+			else {
+				myFile.createNewFile();
+				FileWriter ffw = new FileWriter(myFile);
+				ffw.write("******************************************");
+				ffw.write("\r\n");
+				ffw.write("\r\n");
+				ffw.write("Average time for "+ nbrIteration.get(iteration_p) + " Iteration.");
+				ffw.write("\r\n");
+				ffw.write("The time for algorithm convergence is: "+ timeAdder/(double)nbrIteration.get(iteration_p) + " seconds");
+				ffw.write("\r\n");
+				ffw.write("\r\n");
+				ffw.write("******************************************");
+				ffw.write("\r\n");
+				ffw.close();
+			}			
 			
-	//		Instantiation of the Ant Colony algorithm
-			AntCo antColony = new AntCo(vtx1, vtx8);
-	//		antColony.antsDisplay();					//debug function
-			
-	//		Initiate all ant thread
-			antColony.initThreads();
-			
-	//		Wait for the end of all threads
-			antColony.endThreads();
-			
-	//		Check all ants to find the best path
-			antColony.Scoring();
-			
-	//		Apply Local Search
-	//		TODO
-			
-	//		All all ants to return at their starting point
-			antColony.getBack();
-			
-	//		Display adjacency pheromones matrix
-			CommonKnowledge.pheroMatDisplay();
-			
-		}while (Markov_Decision_Process.MDP());
+			} catch (Exception e) {}		
 	}
 
 }

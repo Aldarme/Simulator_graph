@@ -84,7 +84,7 @@ public class AntCo {
 				}
 			}
 		}		
-		System.out.println("All pheromone strength has been updated.");		//Debug
+//		System.out.println("All pheromone strength has been updated.");		//Debug
 	}
 	
 	/**

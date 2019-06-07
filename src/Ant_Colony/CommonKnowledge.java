@@ -22,13 +22,14 @@ public class CommonKnowledge {
 	private static ArrayList<ArrayList<Float>> pheromones;	//adjacency pheromone matrix
 	public 	static MatrixGraph 	matGraph;				//adjacency matrix
 	private static int					algoIteration;	//Ant Colony iteration number
+	private static double				convergenceTime;//Time fix in seconds
 	
 	/**
 	 * Initialize data structures of the static class
 	 *  optimalPath
 	 *  pheromones
 	 */
-	public static void initPhero() {
+	public static void pheroInit() {
 		
 		optimalPath	= new ArrayList<Edge>();
 		pheromones 	= new ArrayList<ArrayList<Float>>();
@@ -44,7 +45,29 @@ public class CommonKnowledge {
 			}
 		}
 //	Debug initialization of pheromones matrix
-	System.out.println(""+pheromones+"\n"+pheromones.size());
+//	System.out.println(""+pheromones+"\n"+pheromones.size());
+	}
+	
+//	/**
+//	 * Flush adjacency pheromones matrix
+//		TODO test of contain obj & if yes delete
+//	 */
+//	public static void pheroFlush() {
+//		for (int i = 0; i < pheromones.size(); i++) {
+//			for (int j = 0; j < pheromones.size(); j++) {
+//				pheromones.get(i).
+//			}
+//		}
+//	}
+	
+	/**
+	 * Display adjacency pheromones matrix
+	 */
+	public static void pheroMatDisplay() {
+		System.out.println("Adjacency pheromones matrix \n");
+		for (ArrayList<Float> array : pheromones) {
+			System.out.println(array+"\n");
+		}
 	}
 	
 	/**
@@ -162,16 +185,6 @@ public class CommonKnowledge {
 	}
 	
 	/**
-	 * Display adjacency pheromones matrix
-	 */
-	public static void pheroMatDisplay() {
-		System.out.println("Adjacency pheromones matrix \n");
-		for (ArrayList<Float> array : pheromones) {
-			System.out.println(array+"\n");
-		}
-	}
-	
-	/**
 	 * Increment Ant Colony iteration number
 	 */
 	public static void iterationCnt() {
@@ -185,4 +198,18 @@ public class CommonKnowledge {
 	public static int algoIterationGet() {
 		return algoIteration;
 	}
+	
+	public static void convTimeSet(double value_p) {
+		convergenceTime = value_p;
+	}
+	
+	public static double convTimeGet() {
+		return convergenceTime;
+	}
+	
+	public static double timeCvter(long time_p, long divider_p) {
+		return (double) time_p / divider_p;
+	}
+	
+	
 }

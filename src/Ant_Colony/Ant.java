@@ -92,7 +92,7 @@ public class Ant extends Thread{
 				ToVisit.remove(tabuList.lastElement());
 				Thread.currentThread().interrupt();
 				this.vtxStart = this.vtxEnd;
-				System.out.println("Ant: "+this.ID+", Path: "+this.tabuList+", length: "+this.distTravelled+"\n");
+//				System.out.println("Ant: "+this.ID+", Path: "+this.tabuList+", length: "+this.distTravelled+"\n");
 				return false;
 			}
 			this.vtxStart = this.vtxEnd;							//update start&end vertex to find new destination from the vertex+1
