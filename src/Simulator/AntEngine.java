@@ -6,6 +6,7 @@ import Decision_Making.Markov_Decision_Process;
 import Graph.Edge;
 import Graph.MatrixGraph;
 import Graph.Vertex;
+import View.PheromoneMatrix;
 
 public class AntEngine {
 	
@@ -30,6 +31,8 @@ public class AntEngine {
 	private Edge edgJ;
 	private Edge edgK;
 	private Edge edgL;
+	
+	PheromoneMatrix wdPheromat;
 	
 	
 	public AntEngine(int MDP_p){
@@ -99,13 +102,17 @@ public class AntEngine {
 //		CommonKnowledge.matGraph.adjMatDisplay();	//Debug function
 		
 //		Initialization of Static classes
-		CommonKnowledge.pheroInit();
+		CommonKnowledge.CommonKnowledgeInit(vtx1, vtx8);
 		Markov_Decision_Process.rewardSet(MDP_p);
+		
+		wdPheromat = new PheromoneMatrix();
+		wdPheromat.setVisible(true);
 	}
 	
+	/**
+	 * Start the Ant colony engine
+	 */
 	public void AE_start() {
-//		Init time counter to evaluate algo time convergence
-		long timeT1 = System. nanoTime();
 		
 		do {
 			
@@ -114,7 +121,7 @@ public class AntEngine {
 //			System.out.println(CommonKnowledge.algoIterationGet()+"st tour \n");
 			
 //			Instantiation of the Ant Colony algorithm
-			AntCo antColony = new AntCo(vtx1, vtx8);
+			AntCo antColony = new AntCo(CommonKnowledge.getVtxStart(), CommonKnowledge.getVtxEnd());
 //		antColony.antsDisplay();					//debug function
 		
 //		Initiate all ant thread
@@ -130,18 +137,13 @@ public class AntEngine {
 			//TODO
 		
 //		All all ants to return at their starting point
-			antColony.getBack();
+			antColony.getBack(wdPheromat);
+			wdPheromat.update();
 		
 //		Display adjacency pheromones matrix
 //			CommonKnowledge.pheroMatDisplay();
 			
 		}while (Markov_Decision_Process.MDP());
-		
-		long timeT2 = System. nanoTime();
-		
-		CommonKnowledge.convTimeSet(CommonKnowledge.timeCvter(timeT2 - timeT1, 1_000_000_000));
-		
-		System.out.println("Algorithme convergence time: " + CommonKnowledge.convTimeGet() + " seconds\n");
 
 	}
 
