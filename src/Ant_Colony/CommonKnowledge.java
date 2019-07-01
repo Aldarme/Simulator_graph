@@ -1,8 +1,10 @@
 package Ant_Colony;
 
 import java.util.ArrayList;
+
 import Graph.Edge;
 import Graph.MatrixGraph;
+import Graph.Vertex;
 
 /**
  * 
@@ -15,25 +17,32 @@ import Graph.MatrixGraph;
 
 public class CommonKnowledge {
 
-	private static int   nbrOfCities;						//total number of vertex to visit
-	private static float evaporation;						//evaporation coefficient to update edge's strength phero.
-	private static int   optimalPathLght;				//length of the optimal tour realize by an ant
-	private static ArrayList<Edge> optimalPath;	//Edges that form the best path
+	private static Vertex vtxStart;
+	private static Vertex vtxEnd;
+	private static int   nbrOfCities;										//total number of vertex to visit
+	private static float evaporation;										//evaporation coefficient to update edge's strength phero.
+	private static int   optimalPathLght;								//length of the optimal tour realize by an ant
+	private static ArrayList<Edge> 		optimalPath;			//Edges that form the best path
+	private static ArrayList<Vertex> 	optimalPath_vtx;	//Vertices of the shortest path
+	private static ArrayList<Vertex> 	optimalPath_vtx_tmp;	//short term copy of optimalPath_vtx
 	private static ArrayList<ArrayList<Float>> pheromones;	//adjacency pheromone matrix
-	public 	static MatrixGraph 	matGraph;				//adjacency matrix
-	private static int					algoIteration;	//Ant Colony iteration number
-	private static double				convergenceTime;//Time fix in seconds
+	public 	static MatrixGraph 	matGraph;								//adjacency matrix
+	private static int					algoIteration;					//Ant Colony iteration number
 	
 	/**
-	 * Initialize data structures of the static class
+	 * Initialize the environment of the Ant colony
 	 *  optimalPath
 	 *  pheromones
 	 */
-	public static void pheroInit() {
+	public static void CommonKnowledgeInit(Vertex vtxStart_p, Vertex vtxEnd_p) {
 		
-		optimalPath	= new ArrayList<Edge>();
-		pheromones 	= new ArrayList<ArrayList<Float>>();
-		optimalPathLght = Integer.MAX_VALUE; 										//Set optimal length at the maximum possible value
+		vtxStart						= vtxStart_p;
+		vtxEnd 							= vtxEnd_p;
+		optimalPath					= new ArrayList<Edge>();
+		optimalPath_vtx 		= new ArrayList<Vertex>();
+		optimalPath_vtx_tmp = new ArrayList<Vertex>();
+		pheromones 					= new ArrayList<ArrayList<Float>>();
+		optimalPathLght 		= Integer.MAX_VALUE; 										//Set optimal length at the maximum possible value
 		
 		for (int i = 0; i < matGraph.size(); i++) {
 			pheromones.add( new ArrayList<Float>(matGraph.size()) );
@@ -48,18 +57,6 @@ public class CommonKnowledge {
 //	System.out.println(""+pheromones+"\n"+pheromones.size());
 	}
 	
-//	/**
-//	 * Flush adjacency pheromones matrix
-//		TODO test of contain obj & if yes delete
-//	 */
-//	public static void pheroFlush() {
-//		for (int i = 0; i < pheromones.size(); i++) {
-//			for (int j = 0; j < pheromones.size(); j++) {
-//				pheromones.get(i).
-//			}
-//		}
-//	}
-	
 	/**
 	 * Display adjacency pheromones matrix
 	 */
@@ -68,6 +65,19 @@ public class CommonKnowledge {
 		for (ArrayList<Float> array : pheromones) {
 			System.out.println(array+"\n");
 		}
+	}
+	
+	/**
+	 * Return pheromone adjacency matrix
+	 */
+	public static Object[][] pheroMtx(){
+		Object[][] array = new Object[pheromones.size()][];
+		
+		for (int i = 0; i < array.length; i++) {
+			array[i] = pheromones.get(i).toArray();
+		}
+		
+		return array;
 	}
 	
 	/**
@@ -135,15 +145,74 @@ public class CommonKnowledge {
 	}
 	
 	/**
-	 * Get names of vertices of the optimal path of graph
+	 * Get the optimal path of graph
+	 * @return ArrayList<String>
+	 */
+	public static ArrayList<String> getOptimalPath_toString() {
+		ArrayList<String> tmp = new ArrayList<String>();
+		for (Edge myEdge : optimalPath) {
+			tmp.add(myEdge.getVtxIn().getName());
+			tmp.add(myEdge.getVtxOut().getName());
+		}
+		return tmp;
+	}
+	
+	/**
+	 * Get the optimal path as a list of vertices
+	 * @return ArrayList<Vertex>
+	 */
+	public static ArrayList<Vertex> optPathVtxGet(){
+		return optimalPath_vtx;
+	}
+	
+	/**
+	 * Get the Get the optimal path as a list of String
+	 * @return ArrayList<String>
+	 */
+	public static ArrayList<String> getOptPathVtx_toString(){
+		
+		ArrayList<String> tmp = new ArrayList<String>();
+		for (Vertex myVertex : optimalPath_vtx_tmp) {
+			tmp.add(myVertex.getName());
+		}
+		return tmp;
+	}
+	
+	/**
+	 * Get vertices of the optimal path
+	 * @return ArrayList<Vertex>
+	 */
+	public static void optPathVerticesGet() {		
+		for (Edge edge : optimalPath) {
+			if (!optimalPath_vtx_tmp.contains(edge.getVtxIn())) {
+				optimalPath_vtx_tmp.add(edge.getVtxIn());
+			}
+			if (!optimalPath_vtx_tmp.contains(edge.getVtxOut())) {
+				optimalPath_vtx_tmp.add(edge.getVtxOut());
+			}			
+		}
+	}
+	
+	/**
+	 * Get names of vertices of the optimal path
 	 * @return ArrayList<String>
 	 */
 	public static ArrayList<String> optimalPathGet_string() {
 		ArrayList<String> tmp = new ArrayList<String>();
-		for (Edge edge : optimalPath) {
-			tmp.add(edge.getVtxIn().getName());
+		for (Vertex myVertex : optimalPath_vtx) {
+			tmp.add(myVertex.getName());
 		}
 		return tmp;
+	}
+	
+	/**
+	 * Update the optimal path
+	 * optimal path as a list of vertices
+	 */
+	public static void flush_optPath_vtx() {
+		optimalPath_vtx.clear();
+		optimalPath_vtx.addAll(optimalPath_vtx_tmp);
+		optimalPath_vtx_tmp.clear();
 	}
 	
 	/**
@@ -181,7 +250,8 @@ public class CommonKnowledge {
 	 * @param integer
 	 */
 	public static float Dorigo_evaporation(Edge edge_p, int tourLenght_p) {
-		return ( (1.0f / tourLenght_p)+ ((1.0f-evaporation) * getPheromones(matGraph.getVtxNum(edge_p.getVtxIn()),matGraph.getVtxNum(edge_p.getVtxOut()))) );
+		float phero = getPheromones(matGraph.getVtxNum(edge_p.getVtxIn()),matGraph.getVtxNum(edge_p.getVtxOut()));
+		return (((1.0f-evaporation) * phero) + (1.0f / tourLenght_p));
 	}
 	
 	/**
@@ -199,16 +269,31 @@ public class CommonKnowledge {
 		return algoIteration;
 	}
 	
-	public static void convTimeSet(double value_p) {
-		convergenceTime = value_p;
+	/**
+	 * Display shortest path
+	 */
+	public static void display_shortestPath() {
+		System.out.println("Shortest path is:");
+		for (Vertex myVtx : optimalPath_vtx) {
+			System.out.println(myVtx.getName());
+		}
+		System.out.println("with a length of: " + optimalPathLght + "\n");
 	}
 	
-	public static double convTimeGet() {
-		return convergenceTime;
+	/**
+	 * Get the starting point of the Ant Colony
+	 * @return
+	 */
+	public static Vertex getVtxStart() {
+		return vtxStart;
 	}
 	
-	public static double timeCvter(long time_p, long divider_p) {
-		return (double) time_p / divider_p;
+	/**
+	 * Get the ending point of the Ant Colony
+	 * @return
+	 */
+	public static Vertex getVtxEnd() {
+		return vtxEnd;
 	}
 	
 	

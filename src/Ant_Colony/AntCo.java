@@ -2,7 +2,11 @@ package Ant_Colony;
 
 import java.util.ArrayList;
 
+import org.omg.PortableInterceptor.SYSTEM_EXCEPTION;
+
 import Graph.*;
+import View.PheroDynaDisplay;
+import View.PheromoneMatrix;
 
 /**
  * 
@@ -21,15 +25,9 @@ public class AntCo {
 	 * @param Vertex
 	 * @param Vertex
 	 */
-	public AntCo(	Vertex Starting_Vertex,
-								Vertex Ending_Vertex)
+	public AntCo(	Vertex Starting_Vertex, Vertex Ending_Vertex)
 	{
-		antArray = new ArrayList<Ant>();
-		
-//	Set all ants at the same depart Vertex and provide them the same end Vertex
-		for(int i=0; i < CommonKnowledge.matGraph.size(); i++) {
-			antArray.add(new Ant(Starting_Vertex, Ending_Vertex, null, i));
-		}
+		threadGenerator(Starting_Vertex, Ending_Vertex);
 	}
 	
 	/**
@@ -39,9 +37,11 @@ public class AntCo {
 		for (Ant ant : antArray) {
 			if(ant.getDist() < CommonKnowledge.optLgthGet()) {
 				CommonKnowledge.optLgthSet(ant.getDist());				//store best path length
-				CommonKnowledge.setOptiPath(ant.getTabuEdge());		//store best path
+				CommonKnowledge.setOptiPath(ant.getTabuEdge());		//store best path as a list of Edges
 			}
 		}
+		CommonKnowledge.optPathVerticesGet();									//store best path as a list of Vertices
+		
 		System.out.println("Optimal path: "+CommonKnowledge.optimalPathGet_string());	//Debug
 		System.out.println("Optimal length: "+CommonKnowledge.optLgthGet());					//Debug
 	}
@@ -53,6 +53,18 @@ public class AntCo {
 		for (Ant ant : antArray) {
 			ant.start();
 		}		
+	}
+	
+	/**
+	 * Thread generator
+	 */
+	public void threadGenerator(Vertex vtxStart, Vertex vtxEnd) {
+		antArray = new ArrayList<Ant>();
+		
+//	Set all ants at the same depart Vertex and provide them the same end Vertex
+		for(int i=0; i < CommonKnowledge.matGraph.size(); i++) {
+			antArray.add(new Ant(vtxStart, vtxEnd, null, i));
+		}
 	}
 	
 	/**
@@ -72,7 +84,7 @@ public class AntCo {
 	/**
 	 * Allow to getBack ants to its starting vertex
 	 */
-	public void getBack() {
+	public void getBack(PheromoneMatrix wdPheromat) {
 		
 		for (Ant ant : antArray) {
 			if(ant.getAntState() == state.RETURNING) {
@@ -81,9 +93,22 @@ public class AntCo {
 																				CommonKnowledge.matGraph.getVtxNum(edges.getVtxOut()), 
 																				CommonKnowledge.Dorigo_evaporation(edges, ant.getDist())
 																			);
+//***************************************************************************************
+//					DEBUG
+//***************************************************************************************
+//				System.out.println(CommonKnowledge.getPheromones( CommonKnowledge.matGraph.getVtxNum(edges.getVtxIn()),
+//																														CommonKnowledge.matGraph.getVtxNum(edges.getVtxOut()) ));
+//
+//					
+//				System.out.println(edges.getVtxIn().getName());
+//				System.out.println(edges.getVtxOut().getName());
+//				System.out.println(ant.getDist());
+//				wdPheromat.update();
+//***************************************************************************************
 				}
 			}
-		}		
+		}	
+		CommonKnowledge.flush_optPath_vtx();
 //		System.out.println("All pheromone strength has been updated.");		//Debug
 	}
 	

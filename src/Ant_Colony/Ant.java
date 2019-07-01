@@ -34,7 +34,7 @@ public class Ant extends Thread{
 	private int 				distTravelled;			//Total distance travel from start to current position
 	private ArrayList<Vertex> testedVtxList;//Allow to store testedVtx to do not test two times the same vertex
 	
-//	It's important to remember that a ant must have a reference on Two points:
+//	It's important to remember that an ant must have a reference on two points:
 //	 - A reference to the common Ant knowledge
 //	 - A Reference to the Graph adjacency matrix 	
 	
@@ -201,6 +201,14 @@ public class Ant extends Thread{
 	 */
 	public ArrayList<Edge> getTabuEdge() {
 		return this.Edge_tabuList;
+	}
+	
+	/**
+	 * Get an array of all visited Vertices.
+	 * @return ArrayList<String>
+	 */
+	public Vector<String> getTabuVtx() {
+		return this.tabuList;
 	}
 	
 	/**
